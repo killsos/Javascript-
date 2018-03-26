@@ -230,3 +230,237 @@ arguments.caller  谁调用了当前执行的函数
 with会引入一个上下文环境
 
 8. 不能八进制
+
+运算符:
+
+1 算术运算符
+
++ - * /  加减乘除
+
+2 累加累减
+
+++ -- 分前后两种
+
+3 赋值运算符
+=
++=
+-=
+*=
+/=
+%=
+&= 按位与
+|= 按位或
+<<=
+=>>
+=>>>
+^=
+
+4 字符串运算符
++ 连字符
+
+多个数字 加法
+单个数字与其他类型的数据使用+ 首先都转为字符串 然后连接
+多个个数字与其他类型的数据使用+ 从左向右执行
+
+5 比较运算符
+
+<
+>
+<=
+=>
+==
+===
+!=
+!==
+
+6 逻辑运算符
+
+&&
+||
+！
+&&=
+||=
+
+7 特殊值比较
+
+NaN == NaN //false
+NaN === NaN //false
+
+null == undefined //true
+null != undefined //true
+null >= undefined //true
+null <= undefined //true
+
+
+null === undefined // false 它们不是对象
+null == undefined //true
+
+09.js
+
+逻辑等于 与 逻辑全等
+逻辑等于 首先将变量转成相同的数据类型
+然后进行对比
+
+逻辑全等 首先比较数据类型 然后看是否引用的同一个数据
+
+7 位运算符
+
+&
+|
+~
+^
+<<
+>>
+>>> 无符号右移
+
+8 其他运算符
+
+[] 下标运算符
+
+,  逗号运算符 返回最右一个值
+
+(express1)？(express2)：(express3) 三元运算符
+
+in 
+
+instanceof
+
+new 
+
+{}  定义一个块
+
+() 分组运算符
+
+typeof
+返回值：
+undefined --- undefined
+null --- object
+true/false --- boolean
+Number --- Number
+Number --- Number
+object(没有实现[[Call]]属性的对象) --- object
+object(实现[[Call]]属性的对象) --- function
+symbol() --- symbol
+
+object(host) --- Object.prototype.toString.call(obj)  === '[object Array]'
+
+Array Set  WeakSet Map WeakMap
+10.js
+
+void 计算机表达式 然后放弃其值 返回undefined
+
+
+#4 流程控制
+
+1. 语句和语句块
+语句是由一个或多个表达式、关键字或者运算符组成
+
+语句块是由{}括起来
+
+if(){}
+
+if(){}
+else{}
+
+if(){
+
+}else if(){
+
+} else {
+
+}
+
+switch (express){
+    case value: 
+    break;
+
+    default:
+    break;
+}
+
+
+do {
+
+} while()
+
+while(){
+
+}
+
+for(expr1; expr2; expr3){
+    break;
+    continue;
+}
+
+遍历属性名
+for(var in object){
+    break;
+    continue;
+}
+
+自定义原型属性可以枚举
+
+遍历属性值
+for each(var in object){
+
+}
+
+with语句 引用某个特定对象的方法和属性
+whit(object){
+    statement(s)
+}
+
+#5 全局函数
+
+1. eval函数
+计算表达
+
+2. 转义函数
+escape()
+将参数转换为字符串
+并以URL编码格式进行编码
+在这种格式中 所有空格 标点 重音符号
+以及其他非ASCII字符都用%xx十六进制序列
+编码代替 
+例如:
+空格      %20
+叹号！    %21
+双引号"   %22
+井号#     %23
+$         %24
+%         %25
+&         26
+'         27
+
+escape() 
+unescape()
+
+用escape/unescape处理非ASCII字符时会出错
+它们不能用来堆unicode进行编解码
+推荐用encodeURI/decodeURI
+
+
+encodeURI函数将文本字符串编码为一个有效的统一资源标识符URL
+encodeURI(URLString)
+URLString---一个编码的URI的字符串
+
+encodeURI对以下字符不编码:
+保留字符: 
+反向转义字符:
+#号
+---反向decodeURI()
+
+encodeURI函数单靠自身不能形成HTTP GET请求或POST请求
+因为 & + = 不会编码
+所以要使用encodeURIComponent()
+decodeURIComponent()
+
+parseFloat()  非浮点数 返回值NaN
+
+parseInt()   非整数 返回值NaN
+
+以0开头为8进制
+
+以0x开头为16进制
+
+#6 函数
