@@ -1,0 +1,197 @@
+#1
+
+ECMAScript 和 Javascript
+
+网景 livescript 后来改为 Javascript
+
+JS引擎:
+
+Mozilla      SpiderMonkey
+
+Microsoft    JScript
+
+Google       v8
+
+Apple        javascriptCore
+
+JIT  实时编译
+
+just in compilation
+
+通过编译javascript源码为字节码来加速javascript的执行速度
+
+标准与实现
+
+实现是按照标准与规范的实现
+
+javascript和JScript都可以客户端和服务器端运行 只是解释引擎
+
+javascript服务端解释引擎是Netscape服务器Livewire
+JScript与VBscript使用相同的服务端解释引擎 属于ASP语法
+
+脚本语言: 二进制方式  脚本方式
+
+#2
+浏览器的发展
+美国伊利诺斯大学  Mosaic浏览器
+
+#3 网页中javascript
+<script></script>
+
+defer属性 用来通知浏览器 这段脚本代码不会产生任何文档内容
+
+<script src="script.js"></script>
+
+没有 defer 或 async，浏览器会立即加载并执行指定的脚本，
+“立即”指的是在渲染该 script 标签之下的文档元素之前，
+也就是说不等待后续载入的文档元素，读到就加载并执行
+
+<script async src="script.js"></script>
+
+有 async，
+加载和渲染后续文档元素的过程将
+和 script.js 的加载与执行并行进行（异步）
+
+<script defer src="myscript.js"></script>
+
+有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步）
+但是 script.js 的执行要在所有元素解析完成之后
+DOMContentLoaded 事件触发之前完成。
+
+https://segmentfault.com/q/1010000000640869
+
+async与defer组合:
+
+1. 如果定义async 脚本是异步的
+
+2. 如果没有async 定义defer 脚本会在文档解析DOMContentLoaded完成执行
+
+3. 如果async defer 同时没定义 脚本会被理解下载 下载完成后立即执行
+
+noscript
+noscript 元素用来定义在脚本未被执行时的替代内容（文本）
+此标签可被用于可识别 <script> 标签但无法支持其中的脚本的浏览器
+仅在下列情况被渲染:
+1 用户浏览器被设置为不能执行脚本
+
+2 用户浏览器不支持script元素调用的脚本元素
+
+默认脚本语言
+通过meta指定 
+
+#3
+声明与命名变量
+
+1 一条声明语句可以声明多个变量 用逗号隔开
+00.js
+
+2 一条声明语句可以声明多个变量 用逗号隔开
+01.js
+这个语句所有变量都是该语句的声明操作符控制
+
+3 javascript区分变量大小写
+02.js
+
+变量名与标识符的命名规范
+1. 首字符必须为 字母 下划线 美元符号
+2. 除去首字符后面可以是 字母 数字 下划线 美元符号
+3. 变量名不能是关键字
+
+变量的数据类型
+
+简单 原始数据类型
+布尔 字符 数字 undefined null
+
+字符串转义:
+\n  换行      10
+\r  回车      9
+\'  单引号    27
+\"  双引号    22
+
+null 空值
+
+数字：
+八进制     前缀是0  后面数字0-7之间
+十六进制   前缀是0x 后面数字0-F之间
+
+八进制和十六进制可以是负数 但不能是小数
+
+数字常量: Infinity  NaN
+
+复杂数据类型:
+数组
+
+对象
+
+undefined:
+未初始化的变量 未初始化对象属性
+
+undefined用于不同的数据类型转换结果也不同
+
+String()    返回字符串undefined
+
+Number()    返回NaN
+
+Object()    返回新的对象实例
+
+null == undefined // true
+
+null === undefined // false
+
+使用一个var可以同时声明多个变量的值 变量之间使用都好隔开
+
+var a = true, b = 123;
+
+var关键字在定义变量的时候为多个变量赋相同的值
+
+var  a =  b  = c = 1;
+// 但是有问题 b c 是全局变量
+03.js
+
+
+变量提升:
+1. 全局变量声明提升到最顶部
+2. 函数内变量声明提升函数最顶部
+
+3. 当遇到变量名与函数名相同  函数名优先
+03.js
+
+变量分为:按值传递 按引用传递
+
+
+内存规则: 堆和栈
+
+堆和栈都是运行时内存中分配的一个数据区 因此称之为 堆区 和  栈区
+但两者存储的数据类型和处理速度不同
+
+堆 heap 用于处理复杂数据类型分配空间
+例如数据 对象 它们都是在运行时动态分配内存 因此存取速度慢
+
+栈 stack 用于存储基本数据类型和对象的引用
+优势存取速度比堆快
+并且栈内的数据可以共享
+缺点是存在栈中的数据大小与生存期必须是确定 缺乏灵活性
+
+栈的使用规则:
+栈最重要特性是: 数据共享
+04.js
+
+
+堆得使用规则:
+05.js
+
+易犯的错误:
+06.js
+
+逻辑等于 与 逻辑全等
+逻辑等于 首先将变量转成相同的数据类型
+然后进行对比
+
+逻辑全等 首先比较数据类型 然后看是否引用的同一个数据
+07.js
+
+
+数据类型转换:
+显式转换  隐式转换
+
+
