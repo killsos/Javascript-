@@ -771,3 +771,318 @@ IE不支持__proto__
 该对象可以利用对象命名定义属性和方法
 29.js
 
+使用get/set存取器方法定义属性
+只读属性  getter
+读写属性  setter
+
+get基本形式 需要加入get关键字
+set基本形式 需要加入set关键字
+30.js
+
+类体内使用this
+this表示类的实例自身
+31.js
+
+闭包方法---绑定方法内this
+32.js
+
+this指向执行环境
+如果构造方法不是使用new创建实例
+而是直接像调用函数那样调用
+那么this就不会代表该类的实例
+
+改变this方法：
+apply  call  bind
+
+public 
+
+private
+
+检测继承关系
+obj.prototype.constructor = class
+检测一个子类是否继承于某个基类
+
+自己实现$super的方法
+33.js
+
+
+类的组合
+房子 由  窗子 和 门 构成
+并且不是继承关系
+而是组合关系
+34.js
+
+is-a 兔子属于动物     继承关系
+
+has-a 兔子有头和腿    组合关系
+
+
+聚合 Aggregation 
+组合 Composition
+
+聚合和组合两者都是表示一个类"拥有"另一些类
+表示组合关系
+但是有差别:
+
+聚合是弱的拥有关系
+体现A可以包含B 但是B不是A的一部分
+
+大雁  雁群
+每只大雁属于一个雁群
+一个雁群可以多只大雁
+这是聚合关系
+
+合成是强的拥有关系
+体现严格的部分与整体关系
+
+房子与窗子和门
+
+静态成员与继承没有关系
+
+静态方法中不能使用this
+
+静态类: 如果一个类中的成员全部是静态成员
+静态类中静态方法是不能被实例化
+当用户企图实例化 抛出异常
+
+JavaScript中判断函数是new还是()调用的区别说明
+35.js
+
+通过实现单例模式 36.js
+
+重载与覆载
+
+重载是参数个数 参数的类型
+
+覆载是重写  覆写  覆盖
+
+静态方法和属性不能继承 不能覆载
+
+原型链的本质
+
+每一个类有一个静态属性prototype
+该属性值是对象 称为原型对象
+即便是赋值非对象 也会被改为对象
+38.js
+
+通过prototype属性找到基类
+形成一个原型链条 称为原型链
+原型链尽头是null
+
+按照ECMA262标准的规定:
+当一个类定义时,它有原型对象
+这个原型对象必须声明有多个内部特定的属性
+作为类的特性
+
+其中两个内部属性就是Prototype和Class
+
+标准还规定:
+在创建类的实例时
+该实例隐式的包含有对自身原型对象的引用
+因此实例中包含有Prototype的定义
+
+Prototype
+表示该类的父类的原型对象
+注意是父类的原型对象
+并非当前类的原型对象
+一般用__proto__访问
+不过IE封闭该属性
+
+注意区分内部属性Prototype与静态属性prototype
+
+Class
+属性表示类名 是一个字符串
+Javascript的类名都是内建
+
+当内建类Array定义时 它有原型对象
+并定义了内部属性Prototype和Class
+{
+    Prototype: object的原型对象
+    Class: 'Array'
+}
+
+每个内建Javascript类的内部属性Prototype的值都是Object对象
+因为它们都直接继承自Object
+除了Object自身Prototype属性
+因为Object类是根类
+所以它没有父类
+因此Object的Prototype属性值为null
+
+所以通过内部属性Prototype属性构成继承关系
+
+访问内部属性[Prototype]
+内部属性Prototype是当前类的父类的原型对象
+
+内部属性Prototype本来是不允许JS程序中访问的
+等火狐浏览器公开一个名为__proto__的属性
+用于访问内部属性Prototype
+
+所以全等式
+Array.prototype.__proto__=== Object.prototype是成立的
+
+Array.prototype指向自己父类的引用
+39.js
+
+(new Array()).__proto__.__proto__=== Object.prototype
+当对实例应用__proto__属性时
+返回当前实例所表示类的原型对象的引用
+
+所以这句话 (new Array()).__proto__ === Array.prototype
+40.js
+
+
+实例的__proto__指向类的原型对象
+
+类的原型对象隐藏两个属性Prototype和Class
+class.prototype[Protype] = 父class.prototype
+
+类的原型对象中属性Prototype指向父类的prototype
+
+
+prototype的作用---原型链的实现
+按照ECMA262标准的规定
+每一个类都有一个prototype属性标识类的原型对象
+是静态属性
+作用: 继承 和 分享属性
+
+实现继承
+使用prototype静态属性实现继承
+是通过改变内部属性[Prototype]的值来实现的
+
+function Person(){}
+function Child(){}
+
+Person.prototype = {
+    Prototype: Object.prototype
+    Class: 'Person'
+}
+
+Child.prototype = {
+    Prototype: Object.prototype
+    Class: 'Child'
+}
+
+假如类Person和类Child存在继承关系
+通过:
+child.prototype = new Person()
+来实现
+
+因为Person实例也隐式包含有Person类的
+内部属性[Prototype]
+因此执行这个赋值操作时
+Javascript引擎可以获取Person实例的
+[Prototype]属性值
+然后更改Child的内部属性[Prototype]
+这时候:
+Child.prototype = {
+    Prototype: Person.prototype
+    Class: 'Child'
+}
+
+所以使
+
+Child.prototype.__proto__ = Object.prototype
+
+分享属性/方法
+ECMA262有一个明确规定:
+在创建类的实例时,该实例隐式地包含有对自身原型对象的引用
+因此 实例中也包含有内部属性[Prototype]
+
+一个类的所有属性定义都在原型对象上
+当类的实例访问一个属性时
+Javascript引擎就会去原型对象上查找属性的定义
+然后再执行
+
+由于原型对象中中也包含有内部属性[Prototype]
+因此 这一规定使得可以共享属性
+
+
+__proto__和prototype属性的区别:
+prototype属性是一个静态属性
+__proto__属性是一个实例属性
+
+prototype属性表示类的原型对象
+__proto__属性表示原型对象中定义的内部属性[Prototype]的值
+
+IE不支持__proto__属性
+
+类的每个新实例都有一个__proto__属性
+指向创建它的构造方法的prototype
+也就是该类的原型对象
+
+所以 (new Array('abc')).__proto__ === Array.prototype
+
+__proto__属性同时还有同名的静态__proto__属性
+也是返回原型对象
+但浏览器并没有实现如下等式:
+Array.__proto__ === Array.prototype
+
+也就是说 静态__proto__属性 并不等于 静态prototype属性
+一般不要是静态__proto__属性__proto__属性
+41.js
+
+
+ES5中Object.getPrototypeOf()可以得到指定对象的prototype属性
+即获得一个实例的原型对象
+
+ES3中没有规定可以获取实例的原型对象
+但是 非一些浏览器可以使用__proto__属性获得
+
+所以
+Object.getPrototypeOf(new Array('123')) === Array.prototype
+
+判断原型链方法:
+Object.prototype.isPrototypeof()
+
+查看自有属性而非原型链属性
+
+Obj.hasOwnProperty()
+
+属性是否枚举
+obj.propertyIsEnumerable()
+
+属性描述符
+value
+writable
+enumerable
+configurable
+
+
+object.defineProperty(obj, prop, desc)
+
+object.defineProperty(obj, prop, {
+    get: function(){},
+    set： function(){}
+})
+
+object.defineProperties()
+
+object.getOwnPropertyDescriptor()
+
+
+枚举属性:
+Object.keys()
+
+Object.getOwnPropertyNames()
+
+
+密封对象和冻态对象
+
+Object.preventExtensions(obj)
+Object.seal(obj)
+Object.freeze(obj)
+
+Object.preventExtensions(obj) 不能添加
+Object.isExtensible(obj)
+
+Object.seal(obj)   不能添加 删除
+Object.isSealed(obj)
+
+Object.freeze(obj)  不能添加 删除 修改
+Object.isFreeze(obj)
+
+密封只对类的实例不对类
+
+Object.create(proto, props)
+
+obj.defineProperties(props)
