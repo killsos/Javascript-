@@ -1297,7 +1297,7 @@ source = null
 
 web socket 套接字
 
-socket = new WebSocket(host);
+socket = new WebSocket(host, [protocol]);
 
 socket.onopen = fn
 
@@ -1305,7 +1305,241 @@ socket.onmessage = fn
 
 socket.close = fn
 
+socket.send()
+
 scoket.close()
 
 socket = null
+
+web socket握手部分类似于http协议
+不同部分是http协议每次包含这些报头
+socket只会第一次有带报头
+
+ws  wss
+
+编码是utf8
+
+
+DOM文档管理
+DOM:
+core
+views
+events
+style
+html
+traversal and range
+
+DOM基于节点数的表现形式
+
+DOM文档节点有 Document Element Comment Type Text类型
+每一个DOM文档必须有一个Document节点 作为节点树的根节点
+
+Html元素就是根节点  document.documentElement
+body元素  document.body
+
+接口 interface 是标准和规范在程序开发中的一个表达形式
+接口是规范 类是对接口的实现
+
+
+document对象
+thewindow.document
+location
+URL
+domain
+referrer 从哪个网页调转到当前网页
+cookie
+lastModified
+compatMode   获取文档css是否处于quirks模式 ---BACKCompat
+charset
+defaultCharset
+readyState --- loading interactive complete
+
+loading 正在加载文档
+
+interactive  文档已经加载完 其他链接资源还有没加载完
+
+complate 全部加载完成
+
+检测文档是否完成：
+1 window.onload
+2 document.onreadystatechange = fn
+通过document.readyState判断
+
+document.open 与 window.open作用一样
+但是返回时document对象而不是window对象
+
+document.close 可以关闭输入流 无法关闭文档窗口
+
+要关闭文档窗口用window.close()
+
+想网页写入内容
+document.write
+document.writeln
+
+清除网页内容
+document.write('')
+document.close()
+
+使整个文档都可编辑
+document.designMode on/off
+忽略子元素是否document.body.contentEditable属性
+
+document.body.contentEditable = true
+如果子元素设置了document.body.contentEditable属性
+就覆盖父级的
+
+焦点管理
+window.blur()
+window.focus()
+
+document.activeElement 返回当前焦点所在元素
+如果焦点不在任何元素上 返回body
+
+document.hasFocus() 可以检测焦点是否文档环境内
+文档可以嵌入在另一个文档中
+如果嵌入的文档获得焦点
+那么其父文档以及顶层文档也肯定获取焦点
+这时都会返回true
+
+
+document.defaultViwe  === window
+
+编辑API
+document.execCommand(commandId, showUI, value)
+46.html
+
+document.queryCommandSupported 检查命令是否支持
+
+document.queryCommandState 确定指定的命令的状态
+
+document.queryCommandEnabled 确定命令是否已被激活
+
+
+HTML DOM树
+1 元素
+2 属性
+3 文本
+8 注释
+9 文档
+11 文档片段
+
+父节点  parent Node
+
+子节点  child Node
+
+同胞节点 sibling node
+
+祖辈节点  ancestor node
+
+后代节点  descendant node
+
+appendChild
+cloneNode
+hasAttributes()
+insertBefore
+isSupported
+removeChild
+replaceChild
+nodeName
+nodeValue
+nodeType
+parentNode
+childNodes
+firstChild
+lastChild
+previousSibling
+nextSibling
+hasAttributes
+ownerDocument
+
+Document接口
+createElement
+createText
+createDocumentFragment
+createComments
+createAttribute
+
+document.doctype   --- doctype
+document.documentElement ---html
+
+
+Attr接口
+属性节点
+Element.getAttributeNode()
+
+
+Element接口
+getElementById
+getElementByTagName
+
+appendChild insertBefore
+
+setAttribute getAttribute createAttribute
+
+hasAttribute removeAttribute
+
+document.body
+
+document.childNodes  可以获取除HTML元素以外的节点
+
+getElementsByName()
+包含name属性
+button fieldset input select textarea form iframe
+
+cloneNode
+
+innerHTML outerHTML
+后者包含自己 前者不包含自己只包含子节点
+
+insertAdjacentHTML()
+在元素特定的地方插入新的内容字符串
+内容字符串会先被解析为HTML
+然后在插入
+
+input type='file' multi 
+
+event.target.files 
+
+css样式表
+
+嵌入式
+
+外部引用式
+
+内联式
+
+@规则
+@import @charset @media @page 
+
+
+每一个style元素或link元素被描述为一个styleSheet对象
+每个styleSheet对象中包含很多规则
+进而可以获取规则中的样式数据
+
+document.styleSheet 一组styleSheet数组
+
+var rule = styleSheet.rules[0-n]
+
+rule.style 返回一个style对象
+
+import = styleSheet.imports
+
+import也是一个styleSheet对象
+
+添加 styleSheet.addImport()
+    styleSheet.addRule()
+    styleSheet.removeRule()
+
+document.styleSheet 可以访问styleSheet对象
+styleSheet.rules    可以访问rules对象
+rule.style          可以访问style对象
+
+styleSheet的media属性
+
+styleSheet的page属性 --- 打印
+@page 规则用于在打印文档时修改某些CSS属性。
+你不能用@page规则来修改所有的CSS属性
+而是只能修改margin,orphans,widow 
+和 page breaks of the document
+对其他属性的修改是无效的
 
