@@ -1086,3 +1086,226 @@ Object.isFreeze(obj)
 Object.create(proto, props)
 
 obj.defineProperties(props)
+
+
+正则表达式与字符串
+
+数组 多维数组 复合数组
+数组浅克隆
+concat slice
+
+数组深度克隆
+
+
+复合数组 称为关联数组 哈希hash 映射Map
+
+for in 针对键
+for each in针对值
+
+日期和时间
+
+
+Function和arguments类
+
+Function类
+有三个方法apply call bind
+
+bind返回值一个新函数 this已经绑定好了
+
+
+Arguments类与arguments属性
+arguments.callee 当前正在执行的函数
+arguments.caller 当前正在执行的函数的调用者
+
+BOM browser object Modules
+
+window对象
+document
+location
+navigator
+event
+histroy
+screen
+
+定时器
+setInterval
+setTimeout
+
+alert
+confirm
+prompt
+showModalDialog(url)
+
+打印 window.print()
+
+window.open(url, name, )
+window.close()
+window.stop()
+
+获取窗口引用
+window[index]
+
+window[name]
+
+window.focus()
+
+window.blur()
+
+window.locationbar.visible
+
+window.menubar.visible
+
+window.personalbar.visible
+
+window.scrollbar.visible
+
+window.statusbar.visible
+
+window.toolbar.visible
+
+浏览历史管理
+history对象方法与属性
+length
+back()
+forward()
+go()
+
+go(0) 刷新当前网页
+与location.reload()等效
+
+go(1) history.forward()
+
+HTML5: 添加与替换历史项 
+pushState(data, title, url) 添加新的历史项
+但是不会触发页面刷新
+43.html
+
+replaceState(data, title, url) 更新当前的历史项
+但是不会触发页面刷新
+
+两者区别是：push是添加一项历史记录 replace替换当前记录
+
+每当同一个文档的浏览历史即History出现变化
+会触发popstate事件
+
+仅仅调用pushState或replaceState并不会触发popstate事件
+只有用户点击浏览器倒退按钮或者前进按钮
+或者用JS调用back forward go方法才会触发
+同时又一个PopStateEvent对象
+
+当使用前进 后退按钮
+还会触发pageshow事件
+当网页变成当前网页
+
+还会触发pagehide事件
+当网页从当前网页改变为历史网页
+
+这两个事件对象包含一个名为persisted属性
+如果网页是新加载是false
+返之是true
+
+解析地址location
+描述某一个窗口对象所打开的URL地址
+
+window.open返回一个window对象
+
+属于不同协议或不同主机的两个地址之间不能互相引用对方的location对象
+这是安全需要
+
+location.hash  #号文字
+location.host  主机名 端口号
+location.hostname 主机名
+location.pathname 路径名
+location.port     端口号
+location.protocol 协议名
+location.search   ?后面
+
+hash改变 会触发hashchange事件
+window.hashchange
+
+location.assing()   加载一个新文档
+location.reload（true/false） 刷新网页
+是否从缓存中重新加载
+
+location.replace()  替代当前网页
+这个方法替换 不能用后退
+
+location.resolve()
+相对URL转为绝对URL
+
+获取浏览器信息navigator
+appName  浏览器名称
+appVersion  浏览器版本
+onLine      是否在线
+platform    操作系统
+userAgent   用户代码字符串  也就是HTTP请求报头中User-userAgent
+
+自定义架构处理
+window.navigator.registerProtocolHandler()
+可以将自己注册为特定架构(通信协议)的处理者
+参数 schme  url title
+---点击右键链接调用出邮箱端
+45.html
+
+自定义内容类型处理
+window.navigator.registerContentHandler()
+可以为特定MIME类型的内容自定义处理器
+参数 mimeType url title
+
+检测脱机模式
+navigator.onLine
+
+1 window  document  document.body 注册函数
+
+2 document.body document使用online offline属性注册函数
+
+3 body使用online offline属性注册函数
+
+W3C规定windowonline offline属性注册函数 但是浏览器未实现
+
+screen对象
+提供屏幕对象
+
+
+clipboardData对象
+剪贴板对象
+setData()
+getData()
+clearData()
+
+web存储: localStorage sessionStorage webSQL
+
+
+通信技术:
+server-Sent event
+
+var source = new EventSource(url);
+
+source.onopen = function
+
+source.onmessage = function
+
+source.onerror = function
+
+source.close()
+
+source = null
+
+基于事件流 text/event-stream utf8
+
+最好基于用web worker
+
+web socket 套接字
+
+socket = new WebSocket(host);
+
+socket.onopen = fn
+
+socket.onmessage = fn
+
+socket.close = fn
+
+scoket.close()
+
+socket = null
+

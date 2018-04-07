@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="replace">replace</button>
+  <script>
+    var state = { 'page_id': 1, 'user_id': 5 };
+    var title = 'Hello World';
+    var url = '43.html';
+    document.querySelector('#replace').onclick= function (event) {
+      history.pushState(state, title, url);
+      location.href = '43.html';
+    }
+
+  </script>
+</body>
+</html>

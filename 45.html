@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <a href="mailto:killsos.ql@gmail.com">
+    给我留言
+  </a>
+  <script>
+    window.navigator.registerProtocolHandler('mailto',
+    'http://localhost/?mail=%s',
+    'MyMail'
+    )
+  </script>
+</body>
+</html>

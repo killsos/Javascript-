@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="push">push</button>
+  <button id="replace">replace</button>
+  <script>
+    var state = { 'page_id': 2, 'user_id': 6 };
+    var title = 'Hello World';
+    var url = '44.html';
+    document.querySelector('#push').onclick= function (params) {
+      alert(123);
+      history.pushState(state, title, url);
+      location.href = '44.html'
+    }
+    console.log(history.state);
+    window.addEventListener("popstate", function(event) {
+      console.log(event);
+      console.log(history.state);
+                             
+    });
+
+  </script>
+</body>
+</html>
