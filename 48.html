@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="con">
+      <div id="test">
+        test
+      </div>
+  </div>
+  <script>
+    var ele = document.querySelector('#test');
+    ele.onclick = function (event) {
+      //console.log(1, event.currentTarget);
+      console.log(1, event.target);
+    }
+    var el = document.querySelector('#con');
+    el.onclick = function (event) {
+      //console.log(2, event.currentTarget);
+      console.log(2, event.target);
+    }
+  </script>
+</body>
+</html>

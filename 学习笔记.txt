@@ -1543,3 +1543,393 @@ styleSheet的page属性 --- 打印
 和 page breaks of the document
 对其他属性的修改是无效的
 
+styleSheet.rules : styleSheet.cssRules
+
+IE9以及主流 cssRules
+
+IE8 使用 rules
+
+styleSheet.imports :  styleSheet.ownerRule
+
+现在ownerRule有bug
+现在通过styleSheet.cssRules[i].styleSheet.ownerRule
+
+IE9通过 insertRule() 替代 addImport
+
+事件
+事件处理三要素:
+事件源  EventSource
+事件名  eventName
+响应    eventResponse
+
+事件处理实现
+1. 直接使用元素的事件属性
+<di onclick="javascript:fn"></div>
+
+2. 直接给元素对象添加事件属性
+ele.onclick = fn
+
+3. scipt元素for属性和event属性
+<div id="test"></div>
+<script for="test" evnet="onclick"></script>
+仅仅是IE支持
+
+4. fireEvent方法
+由于IE为每个对象都定义了fireEvent()方法
+可以使用该方法来触发事件
+
+isFired = ele.fireEvent(eventname, eventobj)
+
+参数 eventname 指定事件字符串
+     event     获取event对象属性
+
+这实际上是一种委派
+w3c使用dispatchEvent方法来实现相同的效果
+47.js
+
+5. attachEvent/detachEvent
+target.attachEvent(eventType, listener)
+target.detachEvent(eventType, listener)
+
+target.addEventListener(eventType, listener, useCapture)
+target.removeEventListener(eventType, listener, useCapture)
+eventType不带on
+
+useCapture true  捕获 + 目标阶段
+useCapture false 冒泡 + 目标阶段
+
+可以使用两次addEventListener方法
+一次useCapture设为true
+一次useCapture设为false
+
+删除事件必须三个参数必须相同
+
+低版本IE事件模型仅支持目标阶段和冒泡阶段
+
+处理事件
+一旦事件发生 便会生成一个event对象
+在javascript解释引擎的内存中就产生相应的Event对象
+
+当发生事件时 event对象将作为参数传递给事件处理函数
+事件处理函数可以获取对event对象引用 
+然后就可以使用event对象的成员获取一些与事件相关的信息
+
+Event
+    currentTarget
+    返回当前正在使用某个事件处理函数的目标对象
+currentTarget 事件属性返回其监听器触发事件的节点，即当前处理该事件的元素、文档或窗口
+    target
+    返回事件目标对象 但此属性也会包含目标下的节点
+
+本质区别是：
+event.target返回触发事件的元素
+event.currentTarget返回绑定事件的元素
+48.html
+
+w3c对DOM事件定义了3个阶段 捕获阶段 目标阶段 冒泡阶段
+
+取消冒泡:
+event.cancelBubble = true
+event.stoppropagation()--- w3c规定取消冒泡阶段
+
+fromElement/toElement属性晋档处理onmouseover onmouseput事件才有意义
+
+IE中window.event返回event对象 现代浏览器是event对象
+function(evt){
+ var evt = window.event ? window.event : evt;
+}
+
+低版本IE                  W3C规定
+cancelBubble             stoppropagation
+fromElement              relatedTarget    设置获取事件发生激活对象或鼠标要离开的对象
+return false             prevetnDefault   取消默认操作
+srcElement               target           事件发生的文档元素
+x/y                      pageX pageY
+
+响应键盘事件
+按键事件触发顺序  先按下后弹起
+
+keypress keydown keyup三者区别
+
+1 keypress只能捕获单个字符  keydown keyup 可以获取组合键
+
+2 keypress主要用来接收字母 数字等ANSI字符
+keydown keyup 可以获取printScreen键以外的所有按键
+
+3 keypress 区分字母大小  keydown keyup 不能区分字母大小
+
+4 keypress不区分数字小键盘和主键盘的数字部分 keydown keyup 区分
+
+Ajax
+async javascript xml
+核心是客户端JS和服务器进行异步数据交换
+起源 XMLHttpRequest
+1 new    产生XMLHttpRequest对象
+2 open   建立链接
+3 send   发送数据
+可以参数Tcp发送数据
+
+所以open 必须在send之前
+
+open(method, url, asyncFlag, username, password)
+
+send(data)  data最好是字符串
+
+设置header通过setRequestHeader
+setRequestHeader在open之后 send之前
+
+abort 终止请求
+
+getAllResponseHeaders()
+
+getResponseHeader()
+
+responseText  responseXML
+
+status  statusText
+
+readyState
+0 对象尚未初始化 尚未open
+1 对象已创建 调用open 但没有send
+2 调用send 响应状态和报头依然不可访问
+3 接收部分数据
+4 全部数据 
+
+ajax避免缓存 url+随机数
+
+DOMParser 解析XML 返回一个Document对象
+
+IE独有XDomainRequest 跨域访问
+Access-Control-Allow-Origin *
+
+网页请求和响应
+
+URI 统一资源标识符
+URL 统一资源定位符
+URN 统一资源名称
+
+URL 和 URN 是URL的子集
+协议 主机名称  端口号  目录  文件
+
+请求消息
+message = start-Line
+          * message-header
+          CRLF
+          [message-body]
+start-line对于请求
+request-line  
+
+对于响应
+status-line
+
+请求行
+method  request-uri  http-version CRLF
+
+GET  请求
+HEAD 类似于请求 但是只返回header
+post 添加
+put  修改
+delete 删除
+options 查询支持方法
+trace   远程诊断服务器
+
+响应行
+http-version Status-code reason-phrase   CRLF
+
+301    永久
+302    临时
+400    bad request
+401    未授权
+403    禁止
+404    not found
+405    方法不允许
+500    服务器坏
+502    网关坏
+503    服务不可以
+504    网关超时
+505    http版本不支持
+
+general-header 普通报头
+
+request header 请求报头
+
+response header 响应报头
+
+entity  header  实体报头
+
+普通报头
+cache-control 
+date
+connection
+pragma
+transfer-Encoding
+upgrade
+via
+
+请求报头
+Accept
+Accept-charset
+Accept-Encoding
+Accept-Lanuage
+
+If-modified-Since
+If-unmodified-Since
+If-match
+If-none-match
+If-Range
+
+from
+host
+range
+referrer
+user-Agent
+max-forward
+proxy-authorization
+
+响应报头
+age
+location
+public
+server
+warning
+
+
+实体报头
+Allow
+content-Lanuage
+content-length
+content-Encoding
+content-Type
+last-modified
+exprise
+
+请求
+请求行
+普通头
+请求头
+实体头
+CRLF
+message-body
+
+响应
+响应行
+普通头
+响应头
+实体头
+CRLF
+message-body
+
+
+跨站攻击 解析字符  同源
+同协议 同主机 同端口
+
+性能优化
+
+1 文档压缩
+2 控制内存  垃圾回收
+3 优化代码
+函数语句不能太多
+尽可能使内建函数
+不要全局变量
+循环外声明变量
+trycatchfinally finally 释放资源
+函数缓存
+
+
+页面重构 重绘
+重构  reflow
+元素布局 
+
+网页加载到浏览器 首先解析为DOM 然后应用样式
+最终呈现页面两个步骤:
+1 DOM 页面结构
+2 渲染 css style
+
+如果变化涉及到元素布局 浏览器则抛弃原有属性
+重新计算并把结果传递给渲染引擎
+以重新描绘页面元素 此过程称之为reflow
+
+每次对元素的操作都会发生repaint 或 reflow
+
+触发重构或重绘的行为:
+DOM元素增加  修改  删除 此时重构 重绘都会发生
+
+改变窗体大小 滚动页面 添加样式 删除样式 内容改变 css伪类被触发
+更改元素的classname 
+获取一个必须经过计算的尺寸值(offsetLeft offsetTop offsetHeight offsetWidth 
+scrollTop/left/right/width  getComputedStyle currentStyle属性)
+---会重绘
+
+
+优化重构
+能直接使用innerHTML 就不要DOM
+元素从document删除 完成修改后再放回
+元素display none  完成修改后dispaly
+使用文档片段 document.createDocumentFragment() 缓存DOM
+
+
+优化重绘
+重绘是css导致
+尽可能少修改元素的style属性 尽量修改classname
+通过cssText属性一次性将样式值设置到对象上
+避免设置过多的行内样式
+避免使用表格布局
+
+
+错误与异常情况
+
+错误Error
+是指程序被认为非法的情形
+因为脚本代码本身存在的问题而发生
+这些问题经过检查和调试可以避免
+
+异常Exception
+是不可预测的
+进行检查和调试也无法避免
+这种错误:
+程序外部环境
+客户端软硬件问题
+服务器端软硬问题
+
+错误：
+1 语法错误
+2 运行时错误 5/0
+3 逻辑错误
+
+异常情况处理
+try catch finally
+throw
+
+Error语句
+
+3种构造器
+new Error()
+new Error(number)
+new Error(number, description)
+
+火狐 new Error(description, filename, number)
+
+filename 导致错误的文件路径
+lineNumber 导致错误的文件中行号
+message    错误信息
+number     错误数值
+stack      打印出错的堆栈
+name       错误名 一般就是返回Error
+
+推荐是用name  message  toString()
+
+内建错误类型
+EvalError     使用new或者eval时候
+
+RangeError    超出数字 数组 参数不在允许范围内
+
+ReferenceError 尝试对密封(非动态)的类实例使用未定义属性的引用
+
+syntaxError    语法错误
+
+typeError      类型错误  函数调用但是调用的对象不是函数
+
+URIError       URI中非法字符
+
+
+ 
