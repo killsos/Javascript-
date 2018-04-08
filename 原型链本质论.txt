@@ -111,4 +111,4 @@ __proto__和prototype属性区别:
 __proto__同时还有类的同名的静态__proto__属性也是返回原型对象
 
 Array.__proto__  === Array.prototype 是成立的
-但是浏览器没有实现 所以千万不要静态__proto__属性
+但是浏览器没有实现 所以千万不要用静态__proto__属性
