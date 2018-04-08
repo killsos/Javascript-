@@ -1,0 +1,114 @@
+每一个类都有一个prototype属性
+这是一个静态属性
+该属性值标识该类的原型对象
+
+在原型对象上定义了一些内部属性用于描述该类
+其中就包含该类的基类的信息
+
+通过该信息 javascript引擎就可以知道该类的基类
+同时基类也有相同的构成
+因此javascript引擎就可以知道基类的基类
+从而就建立来一个链条
+因为描述基类的信息的内部属性[Prototype]
+所以该链条被称为原型链
+prototype chain
+
+原型链的尽头是Object的原型对象
+该对象的内部属性[Prototype]的值是null
+
+
+原型链的根源
+真正理解Javascript对象原型链从类的内部构造谈起
+
+按照ECMA262
+当一个类定义时 它有原型对象prototype object
+原型对象必须声明有多个内部特定的属性 作为类的特性
+其中两个内部属性就是[Prototype]和[Class]
+
+在创建类的实例时 该实例隐式地包含有对自身原型对象的引用
+
+内部属性[Prototype]
+表示该类的父类的原型对象
+一般都是使用属性__proto__来访问
+
+注意区分 内部属性与静态属性prototype
+
+内部属性[Class]
+表示类名 是一个字符串
+
+当类Array定义时 必须声明这个两个属性
+Class(标示类名) 和 Prototype(标示父类的原型)
+在运行时 javascript解释引擎通过[Class]就知道该类的名称信息
+通过[Prototype]就能找到该类的父类的原型对象信息
+
+每个内建Javascript类的内部属性[Prototype]的值都是Object对象
+(因为它们直接继承自Object) 除了Object自身的[Prototype]属性
+因为Object类是根类 所以它没有父类
+因此代表父类原型对象的[Prototype]属性值为null
+{
+  Prototype: null,
+  Class: 'Object'
+}
+鉴于这种定义 内部属性[Prototype]表示一个关系
+这种关系构成继承关系
+49.js
+
+访问内部属性[Prototype]
+规定了当前类的父类的原型对象
+
+类Array的原型对象的内部属性定义如下 
+{
+  Prototype: Object.prototype,
+  Class: "Array"
+}
+或这样表示
+
+Array.prototype = {
+  Prototype: Object.prototype,
+  Class: "Array"
+}
+
+Object.prototype.__proto__ === null
+
+内部属性[Prototype]本来是不允许在javascript程序中
+访问的但是火狐浏览器通过__proto__属性来访问[Prototype]
+
+所以 Array.prototype.__proto__ === object.prototype
+
+下面思考:
+(new Array()).__proto__.__proto__ === object.prototype
+
+当对原型对象应用__proto__属性时 返回对当前类的父类的原型对象的引用
+
+当对实例应用__proto__属性时 返回对当前实例所表示类的原型对象的引用
+
+自定义类 50.js
+
+prototype的作用---原型链的实现
+按照ECMA262
+每一个类都有一个prototype属性标识类的原型对象
+该属性时静态属性
+两个作用:实现继承与分享属性
+
+Person类的实例隐式包含有Person类的内部属性
+因此当执行Child.prototype = new Person()
+javascript解释引擎可以获取Person实例的[Prototype]的属性值
+然后更改Child的内部属性[Prototype]
+所以
+Child.prototype.__proto__ = Person.prototype
+
+
+__proto__和prototype属性区别:
+1. prototype属性时一个静态属性  __proto__是一个实例属性
+2. prototype属性表示类的原型对象  
+   __proto__属性表示原型对象中定义的内部属性[Prototype]的值
+
+3. IE不支持__proto__属性 其他浏览器支持
+
+4. 类的每一个实例都有一个__proto__属性 用于引用创建它的构造方法的prototype属性
+也就是该类的原型对象
+
+__proto__同时还有类的同名的静态__proto__属性也是返回原型对象
+
+Array.__proto__  === Array.prototype 是成立的
+但是浏览器没有实现 所以千万不要静态__proto__属性
